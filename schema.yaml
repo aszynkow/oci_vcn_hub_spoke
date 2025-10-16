@@ -1,0 +1,96 @@
+title: OCI Poc Infrastructure Template
+description: Provisions OCI POC infrastructure
+informationalText: "The Resource Manager Stack creates the infrastructure components (VCN - HUB and 2 spoke, DRG, FastConnect)."
+schemaVersion: 1.1.0
+version: "20200822"
+locale: "en"
+
+variableGroups: 
+  - title: "OCI Poc Configuration"
+    visible: true
+    variables:
+      - compartment_id
+  
+  - title: "Networking"
+    visible: true
+    variables:
+      - on_premis_cidr
+
+#  - title: "Tags"
+ #   visible: true
+  #  variables:
+   #   - freeform_tags
+
+variables:
+  # Hidden variables
+  tenancy_ocid:
+    title: Tenancy ID
+    description: The Oracle Cloud Identifier (OCID) for your tenancy
+    type: string
+    required: true
+    visible: false
+
+  region:
+    title: Region
+    description: The region in which to create all resources
+    type: oci:identity:region:name
+    required: true
+    visible: false
+
+  user_ocid:
+    title: User ID
+    description: The Oracle Cloud Identifier (OCID) for the user
+    type: string
+    visible: false
+
+  fingerprint:
+    title: Private Key Fingerprint
+    type: string
+    visible: false
+
+  on_premis_cidr:
+    type: array
+    items:
+      type: string
+      pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(?:[0-9]|[12][0-9]|3[0-2])$"
+    minItems: 1
+    maxItems: 1
+    title:  "On-prem CIDR block"
+    description: "CIDR block for a VCN. Public subnet get creates from this CIDR as /28 as private subnet as /25"
+    required: true
+    secret: false
+    default: "10.200.0.0/16"
+    
+  compartment_id:
+    title: Target Compartment
+    description: The target compartment to provision AIPoc infrastructure.
+    type: oci:identity:compartment:id
+    required: true
+    visible: true
+    default: compartment_id
+
+#HIDE those
+
+ 
+#  bastion_user:
+#    title: Bastion user
+#    description: bastion user
+#    type: string
+#    default: opc
+#    visible: false
+
+  freeform_tags:
+    type: string
+    visible: true
+
+#outputGroups:
+#  - title: Outputs
+#    outputs:
+#      - BastionPublicIPs
+
+
+outputs:
+#  BastionPublicIPs:
+#    title: "Bastion Host Details"
+#    type: string
+#    visible: true

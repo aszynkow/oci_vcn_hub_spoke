@@ -1,0 +1,97 @@
+# Sample input.yaml for OCI Hub-and-Spoke Architecture
+compartments:
+  - name: "oci_poc"
+    description: "OCI Poc compartment"
+    sub_compartments: []
+
+hub_vcn:
+  name: "hub-vcn"
+  cidr: "10.111.18.0/28"
+  compartment: "oci_poc"
+  subnets:
+    - name: "hub-sub1"
+      cidr: "10.111.18.0/29"
+      security_list_rules:
+        - type: "ingress"
+          protocol: "all"
+          source_cidr: "10.111.0.0/16"
+          description: "Allow all from internal networks"
+        - type: "egress"
+          protocol: "all"
+          destination_cidr: "0.0.0.0/0"
+          description: "Allow all egress"
+    - name: "hub-public"
+      cidr: "10.111.18.8/29"
+      security_list_rules:
+        - type: "ingress"
+          protocol: "tcp"
+          port: 80
+          source_cidr: "0.0.0.0/0"
+          description: "Allow HTTP"
+        - type: "ingress"
+          protocol: "tcp"
+          port: 443
+          source_cidr: "0.0.0.0/0"
+          description: "Allow HTTPS"
+        - type: "egress"
+          protocol: "all"
+          destination_cidr: "0.0.0.0/0"
+          description: "Allow all egress"
+
+spokes_vcn:
+  - name: "data-spoke"
+    cidr: "10.111.16.0/24"
+    compartment: "oci_poc"
+    subnets:
+      - name: "data-sub1"
+        cidr: "10.111.16.0/25"
+        security_list_rules:
+          - type: "ingress"
+            protocol: "all"
+            source_cidr: "10.111.18.0/28"
+            description: "Allow allfrom hub"
+          - type: "egress"
+            protocol: "all"
+            destination_cidr: "0.0.0.0/0"
+            description: "Allow all egress"
+
+  - name: "pilot-spoke"
+    cidr: "10.111.17.0/24"
+    compartment: "oci_poc"
+    subnets:
+      - name: "pilot-sub1"
+        cidr: "10.111.17.0/25"
+        security_list_rules:
+          - type: "ingress"
+            protocol: "tcp"
+            source_cidr: "10.111.18.0/29"
+            description: "Allow all from hub"
+          - type: "egress"
+            protocol: "all"
+            destination_cidr: "0.0.0.0/0"
+            description: "Allow all egress"
+
+groups:
+  - name: "oci_poc_admins"
+    description: "Administrators for all network resources"
+    users: []
+
+policies:
+  - name: "oci_poc_policy"
+    description: "Allow OCI poc admins to manage all poc resources"
+    statements:
+      - "Allow group oci_poc_admins to manage all-resources in compartment oci_poc"
+      - "Allow group oci_poc_admins to manage load-balancers in compartment oci_poc"
+      - "Allow group oci_poc_admins to manage drgs in compartment oci_poc"
+      - "Allow group oci_poc_admins to manage dns in compartment oci_poc"
+    compartment: "oci_poc"
+
+cloud_guard:
+  enable: false
+
+logging:
+  enable: false
+
+notification:
+  enable: true
+  email: "adam.szynkowski@oracle.com"
