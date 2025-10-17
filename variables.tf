@@ -13,21 +13,25 @@ variable "config_file_path" {
 variable "tenancy_ocid" {
   description = "OCID of your tenancy"
   type        = string
+  default = ""
 }
 
 variable "user_ocid" {
   description = "OCID of the user calling the API"
   type        = string
+  default = ""
 }
 
 variable "fingerprint" {
   description = "Fingerprint of the API private key"
   type        = string
+  default = ""
 }
 
 variable "private_key_path" {
   description = "Path to the private key used for OCI API calls"
   type        = string
+  default = ""
 }
 
 variable "region" {

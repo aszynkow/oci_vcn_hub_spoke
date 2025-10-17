@@ -15,7 +15,7 @@ variableGroups:
     visible: true
     variables:
       - on_premis_cidr
-      - virtual_oracle_bgp_peering_ip
+      - virtual_circuit_oracle_bgp_peering_ip
       - virtual_circuit_customer_bgp_peering_ip
 
 #  - title: "Tags"
@@ -62,10 +62,36 @@ variables:
     required: true
     secret: false
     default: "10.200.0.0/16"
+  
+  virtual_circuit_customer_bgp_peering_ip:
+    type: array
+    items:
+      type: string
+      pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(?:[0-9]|[12][0-9]|3[0-2])$"
+    minItems: 1
+    maxItems: 1
+    title:  "BGP peering Customer side "
+    description: "CIDR block /30 or /31"
+    visible: true
+    required: true
+    default: "10.111.18.17/30"
+
+  virtual_circuit_oracle_bgp_peering_ip:
+    type: array
+    items:
+      type: string
+      pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)/(?:[0-9]|[12][0-9]|3[0-2])$"
+    minItems: 1
+    maxItems: 1
+    title:  "BGP peering Oracle side "
+    description: "CIDR block /30 or /31"
+    visible: true
+    required: true
+    default: "10.111.18.18/30"
     
   compartment_id:
     title: Target Compartment
-    description: The target compartment to provision AIPoc infrastructure.
+    description: The target compartment to provision OCI POC infrastructure.
     type: oci:identity:compartment:id
     required: true
     visible: true
@@ -113,14 +139,6 @@ variables:
     type: string
     default: "PRIVATE"
     visible: false
-
-  virtual_circuit_customer_bgp_peering_ip:
-    type: string
-    visible: true
-
-  virtual_circuit_oracle_bgp_peering_ip:
-    type: string
-    visible: true
 
   private_key_path:
     type: string
