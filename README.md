@@ -1,5 +1,5 @@
 # oci_poc
-Deploys OCI basic VCN Hub and Spoke infrastructure
+Deploys OCI basic VCN Hub and Spoke infrastructure, IAM poc_amin group and required policies in a dedicated oci_poc compartment
 
 This guide helps you install and use **OCI POC Infrastructure**.
 
