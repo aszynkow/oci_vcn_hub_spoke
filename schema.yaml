@@ -15,6 +15,8 @@ variableGroups:
     visible: true
     variables:
       - on_premis_cidr
+      - virtual_oracle_bgp_peering_ip
+      - virtual_circuit_customer_bgp_peering_ip
 
 #  - title: "Tags"
  #   visible: true
@@ -81,7 +83,52 @@ variables:
 
   freeform_tags:
     type: string
+    visible: false
+  
+  defined_tags:
+    type: string
+    visible: false
+
+  virtual_circuit_customer_asn:
+    type: string
+    default: "65203"
+    visible: false
+
+  fc_provider_name:
+    type: string
+    default: "Megaport"
+    visible: false
+
+  virtual_circuit_bandwidth_shape_name:
+    type: string
+    default: "1 Gbps"
+    visible: false
+
+  virtual_circuit_display_name:
+    type: string
+    default: "oci-poc-fs1"
+    visible: false
+
+  virtual_circuit_type:
+    type: string
+    default: "PRIVATE"
+    visible: false
+
+  virtual_circuit_customer_bgp_peering_ip:
+    type: string
     visible: true
+
+  virtual_circuit_oracle_bgp_peering_ip:
+    type: string
+    visible: true
+
+  private_key_path:
+  type: string
+  visible: false
+
+  config_file_path:
+    type: string
+    visible: false
 
 #outputGroups:
 #  - title: Outputs
