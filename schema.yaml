@@ -123,8 +123,8 @@ variables:
     visible: true
 
   private_key_path:
-  type: string
-  visible: false
+    type: string
+    visible: false
 
   config_file_path:
     type: string
